@@ -1,0 +1,46 @@
+{
+    "name": "addlocalnetreferences",
+    "displayName": "AddLocalNetReferences",
+    "description": "Add .Net references on you project",
+    "version": "0.0.1",
+    "publisher": "AddLocalNetReferences",
+    "engines": {
+        "vscode": "^1.15.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
+        "onCommand:extension.addLocalreference"
+    ],
+    "main": "./out/src/extension",
+    "contributes": {
+        "commands": [{
+            "command": "extension.addLocalreference",
+            "title": "Add Local .Net References"
+        }]
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "postinstall": "node ./node_modules/vscode/bin/install",
+        "test": "npm run compile && node ./node_modules/vscode/bin/test"
+    },
+    "devDependencies": {
+        "typescript": "^2.5.2",
+        "vscode": "^1.1.5",
+        "mocha": "^3.5.0",
+        "@types/node": "^7.0.43",
+        "@types/mocha": "^2.2.42",
+        "@types/q": "^1.0.0"
+    },
+    "dependencies": {
+        "del": "^3.0.0",
+        "fs-extra": "^4.0.1",
+        "gulp": "^3.9.1",
+        "gulp-zip": "^4.0.0",
+        "path": "^0.12.7",
+        "q": "^1.5.0"
+    }
+}
