@@ -77,7 +77,7 @@ export class FileOperations{
   
   public addPackage(pkgName:string)
   {
-    this.terminal.sendText('dotnet add package '+pkgName+' --package-directory "./References"; dotnet restore --configfile nuget.config;'
+    this.terminal.sendText('dotnet add package '+pkgName+' --package-directory "./References";dotnet clean; dotnet restore --configfile nuget.config;'
     //+' dotnet build'
     );
   }

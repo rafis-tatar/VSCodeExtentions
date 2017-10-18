@@ -2,7 +2,7 @@
     "name": "addlocalnetreferences",
     "displayName": "Add Local .Net Reference",
     "description": "Add .Net references on you project",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "publisher": "RafisTatar",
     "icon":"images/net_logo.png",
     "engines": {
