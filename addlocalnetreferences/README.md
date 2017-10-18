@@ -6,4 +6,5 @@ This extension allows you to quickly add .Net (netstandart) assembly in VS code 
 A .NET Core project only
 
 ## How use
-Ctrl + Shift + P and type 'Add Local .Net References'
+Ctrl + Shift + P and type 'Add Local .Net References'. 
+After clear project cache or resatrt project
