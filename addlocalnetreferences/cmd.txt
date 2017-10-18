@@ -1,0 +1,1 @@
+dotnet add package Trader --package-directory "./References"; dotnet restore --configfile nuget.config; 
