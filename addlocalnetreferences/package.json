@@ -2,9 +2,9 @@
     "name": "addlocalnetreferences",
     "displayName": "Add Local .Net Reference",
     "description": "Add .Net references on you project",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "publisher": "RafisTatar",
-    "icon":"images/net_logo.png",
+    "icon": "images/net_logo.png",
     "engines": {
         "vscode": "^1.15.0"
     },
@@ -16,12 +16,10 @@
     ],
     "main": "./out/src/extension",
     "contributes": {
-        "commands": [
-            {
-                "command": "extension.addLocalreference",
-                "title": "Add Local .Net References"
-            }
-        ]
+        "commands": [{
+            "command": "extension.addLocalreference",
+            "title": "Add Local .Net References"
+        }]
     },
     "scripts": {
         "vscode:prepublish": "npm run compile",

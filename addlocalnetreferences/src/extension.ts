@@ -17,8 +17,7 @@ export function activate(context: vscode.ExtensionContext) {
                 _fileOperation.createPSMDCP();
                 _fileOperation.copyFileAndZipping().then(name=>{
                     _fileOperation.creatNugetConfig();
-                    _fileOperation.addPackage(name);                   
-                    //_fileOperation.terminal.dispose();                
+                    _fileOperation.addPackage(name);                                      
                 }) ;    
             }
             catch(err){
