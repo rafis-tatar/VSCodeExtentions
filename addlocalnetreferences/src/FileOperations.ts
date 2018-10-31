@@ -25,37 +25,37 @@ export class FileOperations{
   }  
   
   private createFolderLib(modulName){
-    let referencesPath=vscode.workspace.rootPath + '\\References';   
+    let referencesPath=vscode.workspace.rootPath + '/References';   
     if (!fs.existsSync(referencesPath)) {                  
       fs.mkdirSync(referencesPath);            
     }
 
-    let dist = referencesPath+'\\'+ modulName+'.'+this.version;
+    let dist = referencesPath+'/'+ modulName+'.'+this.version;
     if (!fs.existsSync(dist)){
         fs.mkdirSync(dist);
       }
-    fs.mkdirSync(dist +"\\_rels");    
-    fs.mkdirSync(dist +"\\lib");
-    fs.mkdirSync(dist +"\\lib\\"+this.standart);
-    fs.mkdirSync(dist +"\\package");
-    fs.mkdirSync(dist +"\\package\\services");
-    fs.mkdirSync(dist +"\\package\\services\\metadata");
-    fs.mkdirSync(dist +"\\package\\services\\metadata\\core-properties");
+    fs.mkdirSync(dist +"/_rels");    
+    fs.mkdirSync(dist +"/lib");
+    fs.mkdirSync(dist +"/lib/"+this.standart);
+    fs.mkdirSync(dist +"/package");
+    fs.mkdirSync(dist +"/package/services");
+    fs.mkdirSync(dist +"/package/services/metadata");
+    fs.mkdirSync(dist +"/package/services/metadata/core-properties");
     return dist;
   }
 
   //Copy source dll and zipping as  .nupkg  
   public copyFileAndZipping():Q.Promise<string>{
     const deff:Q.Deferred<string>=Q.defer<string>();
-    if (!fs.existsSync(this.dist +'\\'+ this.fileName.base)){    
-      let referencesPath=vscode.workspace.rootPath + '\\References';
+    if (!fs.existsSync(this.dist +'/'+ this.fileName.base)){    
+      let referencesPath=vscode.workspace.rootPath + '/References';
       let packageName = this.fileName.name+'.'+this.version+'.nupkg';
-      let sourcePathMasked = referencesPath+'\\'+this.fileName.name+'.'+ this.version;   
-      let copySource = this.fileName.dir+'\\'+ this.fileName.base;
-      let copyDest =  this.dist +"\\lib\\"+this.standart +'\\'+ this.fileName.base;      
-      let zipSource = sourcePathMasked+'\\**\\.*';
-      let zipDest = sourcePathMasked+'\\**\\*';
-      let delPath =vscode.workspace.rootPath + '\\References\\'+this.fileName.name+'.'+ this.version;
+      let sourcePathMasked = referencesPath+'/'+this.fileName.name+'.'+ this.version;   
+      let copySource = this.fileName.dir+'/'+ this.fileName.base;
+      let copyDest =  this.dist +"/lib/"+this.standart +'/'+ this.fileName.base;      
+      let zipSource = sourcePathMasked+'/**/.*';
+      let zipDest = sourcePathMasked+'/**/*';
+      let delPath =vscode.workspace.rootPath + '/References/'+this.fileName.name+'.'+ this.version;
       let modulName = this.fileName.name;
       gulp.task('copy', function(){
         fs_extra.copySync(copySource,copyDest);
@@ -77,7 +77,7 @@ export class FileOperations{
   
   public addPackage(pkgName:string)
   {
-    let cacheFile =vscode.workspace.rootPath + '\\obj\\project.assets.json';
+    let cacheFile =vscode.workspace.rootPath + '/obj/project.assets.json';
     if (fs.statSync(cacheFile))
     {
        fs_extra.removeSync(cacheFile);
@@ -95,7 +95,7 @@ export class FileOperations{
         '<description>Local Reference.</description>\n'+
       '</metadata>\n'+
     '</package>';
-    fs.writeFileSync(this.dist+'\\'+this.fileName.name+'.nuspec', content);        
+    fs.writeFileSync(this.dist+'/'+this.fileName.name+'.nuspec', content);        
   }
   
   public createContentType(){
@@ -107,7 +107,7 @@ export class FileOperations{
       '<Default Extension="dll" ContentType="application/octet" />\n'+
       '<Default Extension="nuspec" ContentType="application/octet" />\n'+
     '</Types>';
-    fs.writeFileSync(this.dist+'\\'+'[Content_Types].xml', content);
+    fs.writeFileSync(this.dist+'/'+'[Content_Types].xml', content);
   }
   
   public createRels(){
@@ -117,7 +117,7 @@ export class FileOperations{
       '<Relationship Type="http://schemas.microsoft.com/packaging/2010/07/manifest" Target="/'+this.fileName.name+'.nuspec" Id="'+Guid.newGuid('Rxxxxxxxxxxxxxxxx')+'" />\n'+
       '<Relationship Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties" Target="/package/services/metadata/core-properties/'+this.ident+'.psmdcp" Id="'+Guid.newGuid('Rxxxxxxxxxxxxxxxx')+'" />\n'+
     '</Relationships>';
-    fs.writeFileSync(this.dist+'\\_rels\\.rels', content);    
+    fs.writeFileSync(this.dist+'/_rels/.rels', content);    
   }
 
   public createPSMDCP(){
@@ -130,13 +130,13 @@ export class FileOperations{
       '<keywords></keywords>\n'+
       //'<lastModifiedBy>NuGet, Version=4.1.0.2450, Culture=neutral, PublicKeyToken=31bf3856ad364e35;Microsoft Windows NT 6.2.9200.0;.NET Framework 4.5</lastModifiedBy>\n'+
     '</coreProperties>';
-    fs.writeFileSync(this.dist +"\\package\\services\\metadata\\core-properties"+'\\'+this.ident+'.psmdcp', content);
+    fs.writeFileSync(this.dist +"/package/services/metadata/core-properties"+'/'+this.ident+'.psmdcp', content);
   }   
 
 
   public creatNugetConfig()
   {
-    let confFile = vscode.workspace.rootPath+'\\nuget.config';
+    let confFile = vscode.workspace.rootPath+'/nuget.config';
     if (!fs.existsSync(confFile))
     {
       let confContent = 
