@@ -16,10 +16,12 @@
     ],
     "main": "./out/src/extension",
     "contributes": {
-        "commands": [{
-            "command": "extension.addLocalreference",
-            "title": "Add Local .Net References"
-        }]
+        "commands": [
+            {
+                "command": "extension.addLocalreference",
+                "title": "Add Local .Net References"
+            }
+        ]
     },
     "scripts": {
         "vscode:prepublish": "npm run compile",
