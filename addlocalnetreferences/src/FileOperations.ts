@@ -78,11 +78,11 @@ export class FileOperations{
   public addPackage(pkgName:string)
   {
     let cacheFile =vscode.workspace.rootPath + '/obj/project.assets.json';
-    if (fs.statSync(cacheFile))
+    if (fs.existsSync(cacheFile))//.statSync(cacheFile))
     {
        fs_extra.removeSync(cacheFile);
     }    
-    this.terminal.sendText('dotnet add package '+pkgName+' --package-directory "./References"; dotnet restore; exit' );
+    this.terminal.sendText('dotnet add package '+pkgName+' --package-directory "./References" && dotnet restore && exit' );
   }
 
   public createNUSPECFile(){    
