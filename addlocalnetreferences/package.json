@@ -2,7 +2,7 @@
     "name": "addlocalnetreferences",
     "displayName": "Add Local .Net Reference",
     "description": "Add .Net references on you project",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "publisher": "RafisTatar",
     "icon": "images/net_logo.png",
     "engines": {
@@ -31,19 +31,18 @@
         "test": "npm run compile && node ./node_modules/vscode/bin/test"
     },
     "devDependencies": {
-        "typescript": "^2.5.2",
-        "vscode": "^1.1.5",
-        "mocha": "^3.5.0",
-        "@types/node": "^7.0.43",
         "@types/mocha": "^2.2.42",
-        "@types/q": "^1.0.0"
+        "@types/node": "^7.0.43",
+        "@types/q": "^1.0.0",
+        "mocha": "^6.0.2",
+        "typescript": "^2.5.2",
+        "vscode": "^1.1.32"
     },
     "dependencies": {
         "del": "^3.0.0",
         "fs-extra": "^4.0.1",
-        "gulp": "^3.9.1",
-        "gulp-zip": "^4.0.0",
         "path": "^0.12.7",
-        "q": "^1.5.0"
+        "q": "^1.5.0",
+        "zip-local": "^0.3.4"
     }
 }

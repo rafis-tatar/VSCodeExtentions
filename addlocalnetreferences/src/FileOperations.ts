@@ -1,8 +1,7 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
+import * as zipper from 'zip-local';
 import * as fs_extra from 'fs-extra'
-import * as gulp from "gulp";
-import * as gulp_zip from 'gulp-zip';
 import * as del from 'del';
 import * as path from 'path';
 import * as Q from 'q';
@@ -52,25 +51,16 @@ export class FileOperations{
       let packageName = this.fileName.name+'.'+this.version+'.nupkg';
       let sourcePathMasked = referencesPath+'/'+this.fileName.name+'.'+ this.version;   
       let copySource = this.fileName.dir+'/'+ this.fileName.base;
-      let copyDest =  this.dist +"/lib/"+this.standart +'/'+ this.fileName.base;      
-      let zipSource = sourcePathMasked+'/**/.*';
-      let zipDest = sourcePathMasked+'/**/*';
+      let copyDest =  this.dist +"/lib/"+this.standart +'/'+ this.fileName.base; 
       let delPath =vscode.workspace.rootPath + '/References/'+this.fileName.name+'.'+ this.version;
       let modulName = this.fileName.name;
-      gulp.task('copy', function(){
-        fs_extra.copySync(copySource,copyDest);
-      });
+      
+      fs_extra.copySync(copySource,copyDest);
+      zipper.sync.zip(sourcePathMasked).compress().save(referencesPath+'/'+packageName);
+      
+      del(delPath,{force:true});
+      deff.resolve(modulName);
 
-      gulp.task('zip', function(){
-        gulp.src([zipSource,zipDest])
-        .pipe(gulp_zip(packageName))
-        .pipe(gulp.dest(referencesPath))
-        .on('end', function () {  
-          del(delPath,{force:true});
-          deff.resolve(modulName);
-        });                                
-      });
-      gulp.start(['copy','zip']);      
     }   
     return deff.promise;
   } 
@@ -78,7 +68,7 @@ export class FileOperations{
   public addPackage(pkgName:string)
   {
     let cacheFile =vscode.workspace.rootPath + '/obj/project.assets.json';
-    if (fs.existsSync(cacheFile))//.statSync(cacheFile))
+    if (fs.existsSync(cacheFile))
     {
        fs_extra.removeSync(cacheFile);
     }    
