@@ -72,7 +72,12 @@ export class FileOperations{
     {
        fs_extra.removeSync(cacheFile);
     }    
-    this.terminal.sendText('dotnet add package '+pkgName+' --package-directory "./References" && dotnet restore && exit' );
+    this.terminal.sendText('dotnet add package '+pkgName+' --package-directory "./References"' );    
+    // vscode.window.showInformationMessage(pkgName+' added.',...["Restore","Cancel"]).then(o=>
+    //   {
+    //     if (o == "Restore")
+    //       this.terminal.sendText('dotnet restore'); 
+    //   });    
   }
 
   public createNUSPECFile(){    
