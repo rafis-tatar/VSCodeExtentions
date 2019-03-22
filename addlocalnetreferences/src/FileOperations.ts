@@ -24,22 +24,37 @@ export class FileOperations{
   }  
   
   private createFolderLib(modulName){
-    let referencesPath=vscode.workspace.rootPath + '/References';   
-    if (!fs.existsSync(referencesPath)) {                  
-      fs.mkdirSync(referencesPath);            
+    let referencesPath=vscode.workspace.rootPath + '/References';       
+    if (!fs.existsSync(referencesPath)) 
+    {                  
+      fs.mkdirSync(referencesPath);    
+      fs.mkdirSync(referencesPath+'/packages');
     }
 
     let dist = referencesPath+'/'+ modulName+'.'+this.version;
-    if (!fs.existsSync(dist)){
+    if (!fs.existsSync(dist))
+    {
         fs.mkdirSync(dist);
-      }
-    fs.mkdirSync(dist +"/_rels");    
-    fs.mkdirSync(dist +"/lib");
-    fs.mkdirSync(dist +"/lib/"+this.standart);
-    fs.mkdirSync(dist +"/package");
-    fs.mkdirSync(dist +"/package/services");
-    fs.mkdirSync(dist +"/package/services/metadata");
-    fs.mkdirSync(dist +"/package/services/metadata/core-properties");
+    }
+
+    let rels= dist +"/_rels";
+    if (!fs.existsSync(rels)) fs.mkdirSync(rels);    
+
+    let lib = dist +"/lib";
+    if (!fs.existsSync(lib))
+    {
+      fs.mkdirSync(dist +"/lib");
+      fs.mkdirSync(dist +"/lib/"+this.standart);
+    }
+
+    let pkge =dist +"/package";
+    if (!fs.existsSync(pkge))
+    {
+      fs.mkdirSync(dist +"/package");
+      fs.mkdirSync(dist +"/package/services");
+      fs.mkdirSync(dist +"/package/services/metadata");
+      fs.mkdirSync(dist +"/package/services/metadata/core-properties");
+    }
     return dist;
   }
 
@@ -50,17 +65,24 @@ export class FileOperations{
       let referencesPath=vscode.workspace.rootPath + '/References';
       let packageName = this.fileName.name+'.'+this.version+'.nupkg';
       let sourcePathMasked = referencesPath+'/'+this.fileName.name+'.'+ this.version;   
-      let copySource = this.fileName.dir+'/'+ this.fileName.base;
-      let copyDest =  this.dist +"/lib/"+this.standart +'/'+ this.fileName.base; 
       let delPath =vscode.workspace.rootPath + '/References/'+this.fileName.name+'.'+ this.version;
       let modulName = this.fileName.name;
-      
-      fs_extra.copySync(copySource,copyDest);
+
+       //copy dll
+      fs_extra.copySync(this.fileName.dir+'/'+ this.fileName.base,this.dist +"/lib/"+this.standart +'/'+ this.fileName.base);
+
+       //if exist xml documentation
+      if (fs.existsSync(this.fileName.dir + '/' + this.fileName.name + '.xml'))
+      {
+        //copy xml
+        fs_extra.copySync(this.fileName.dir + '/' + this.fileName.name + '.xml',this.dist +"/lib/"+this.standart +'/'+ this.fileName.name + '.xml');
+      }
+
       zipper.sync.zip(sourcePathMasked).compress().save(referencesPath+'/'+packageName);
-      
+      del(sourcePathMasked,{force:true});
+
       del(delPath,{force:true});
       deff.resolve(modulName);
-
     }   
     return deff.promise;
   } 
@@ -72,12 +94,7 @@ export class FileOperations{
     {
        fs_extra.removeSync(cacheFile);
     }    
-    this.terminal.sendText('dotnet add package '+pkgName+' --package-directory "./References"' );    
-    // vscode.window.showInformationMessage(pkgName+' added.',...["Restore","Cancel"]).then(o=>
-    //   {
-    //     if (o == "Restore")
-    //       this.terminal.sendText('dotnet restore'); 
-    //   });    
+    this.terminal.sendText('dotnet add package '+pkgName+' --package-directory "./References/packages"' );      
   }
 
   public createNUSPECFile(){    
