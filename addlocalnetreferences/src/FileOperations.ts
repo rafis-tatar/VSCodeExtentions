@@ -155,7 +155,7 @@ export class FileOperations{
       '<?xml version="1.0" encoding="utf-8"?>\n'+
         '<configuration>\n'+  
         '<packageSources>\n'+
-        ' <clear/>\n'+
+        //' <clear/>\n'+
         '<add key="Local" value="./References"/>\n'+      
         '</packageSources>\n'+
         '</configuration>';
